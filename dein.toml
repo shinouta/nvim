@@ -1,0 +1,182 @@
+# deoplete.nvim
+
+[[plugins]]
+repo = 'Shougo/deoplete.nvim'
+depends = 'context_filetype.vim'
+on_i = 1
+hook_source = '''
+    call deoplete#enable()
+    " No display of the number of competion list
+    set shortmess+=c
+
+    " <TAB>: completion.
+    inoremap <silent><expr> <TAB>
+          \ pumvisible() ? "\<C-n>" :
+          \ <SID>check_back_space() ? "\<TAB>" :
+          \ deoplete#manual_complete()
+    function! s:check_back_space() abort
+      let col = col('.') - 1
+      return !col || getline('.')[col - 1]  =~ '\s'
+    endfunction
+
+    " <S-TAB>: completion back.
+    inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<C-h>"
+    " <C-e>: popup cancel
+    inoremap <expr><C-e>       deoplete#cancel_popup()
+
+    call deoplete#custom#source('_', 'matchers', ['matcher_head'])
+    call deoplete#custom#source('_', 'converters', [
+          \ 'converter_remove_paren',
+          \ 'converter_remove_overlap',
+          \ 'matcher_length',
+          \ 'converter_truncate_abbr',
+          \ 'converter_truncate_menu',
+          \ 'cnverter_auto_delimiter',
+          \ ])
+    call deoplete#custom#option('keyword_patterns', {
+          \ '_': '[a-zA-Z_]\k*\(?',
+          \ 'tex': '[^\w|\s][a-zA-Z_]\w*',
+          \ })
+    call deoplete#custom#option('camel_case', v:true)
+'''
+
+# file setting
+[[plugins]]
+repo = 'scrooloose/nerdtree'
+[[plugins]]
+repo = 'jistr/vim-nerdtree-tabs'
+
+# linter setting
+[[plugins]]
+repo = 'autozimu/LanguageClient-neovim'
+build = ['./install.sh']
+hook_add = '''
+    let s:node = empty($XDG_CONFIG_HOME) ? expand('$HOME/.config') : $XDG_CONFIG_HOME
+    let g:LanguageClient_serverCommands = {
+        \ 'c': ['clangd', '-compile-commands-dir=' . getcwd() . '/build'],
+        \ 'cpp': ['clangd', '-compile-commands-dir=' . getcwd() . '/build'],
+    \ }
+    " not stop completion $ & /
+    set hidden
+    set signcolumn=yes
+    let g:LanguageClient_hoverPreview = "Never"
+    nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+    " Or map each action separately
+    nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+    nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+    nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+'''
+
+
+
+
+# debug setting
+[[plugins]]
+repo = 'dbgx/lldb.nvim'
+on_ft = ['c', 'cpp']
+
+
+# tag jump setting
+[[plugins]]
+repo = 'lyuts/vim-rtags'
+on_ft = ['c', 'cpp']
+hook_add = '''
+    let g:rtagsUseDefaultMappings = 0
+    let g:rtagsAutoLaunchRdm = 1
+'''
+hook_source = '''
+    noremap <leader>ri :call rtags#SymbolInfo()<CR>
+    noremap <Leader>rj :call rtags#JumpTo(g:SAME_WINDOW)<CR>
+    noremap <Leader>rJ :call rtags#JumpTo(g:SAME_WINDOW, { '--declaration-only' : '' })<CR>
+    noremap <Leader>rS :call rtags#JumpTo(g:H_SPLIT)<CR>
+    noremap <Leader>rV :call rtags#JumpTo(g:V_SPLIT)<CR>
+    noremap <Leader>rT :call rtags#JumpTo(g:NEW_TAB)<CR>
+    noremap <Leader>rp :call rtags#JumpToParent()<CR>
+    noremap <Leader>rf :call rtags#FindRefs()<CR>
+    noremap <Leader>rF :call rtags#FindRefsCallTree()<CR>
+    noremap <Leader>rn :call rtags#FindRefsByName(input("Pattern? ", "", "customlist,rtags#CompleteSymbols"))<CR>
+    noremap <Leader>rs :call rtags#FindSymbols(input("Pattern? ", "", "customlist,rtags#CompleteSymbols"))<CR>
+    noremap <Leader>rr :call rtags#ReindexFile()<CR>
+    noremap <Leader>rl :call rtags#ProjectList()<CR>
+    noremap <Leader>rw :call rtags#RenameSymbolUnderCursor()<CR>
+    noremap <Leader>rv :call rtags#FindVirtuals()<CR>
+    noremap <Leader>rb :call rtags#JumpBack()<CR>
+    noremap <Leader>rC :call rtags#FindSuperClasses()<CR>
+    noremap <Leader>rc :call rtags#FindSubClasses()<CR>
+    noremap <Leader>rd :call rtags#Diagnostics()<CR>
+'''
+
+
+# search setting
+[[plugins]]
+repo = 'Shougo/denite.nvim'
+hook_add = '''
+    nmap <Space> [denite]
+    nmap <Space>p [deniteProject]
+    nmap <silent> [denite]b :<C-u>Denite buffer<CR>
+    nmap <silent> [denite]g :<C-u>Denite grep<CR>
+    nmap <silent> [denite]m :<C-u>Denite file_mru<CR> <silent> <C-u><C-y> :<C-u>Denite neoyank<CR>
+    nmap <silent> [denite]f :<C-u>Denite file/rec<CR>
+    nmap <silent> [denite]d :<C-u>Denite directory_rec<CR>
+
+    nmap <silent> [deniteProject]b :<C-u>DeniteProject buffer<CR>
+    nmap <silent> [deniteProject]g :<C-u>DeniteProject grep<CR>
+    nmap <silent> [deniteProject]m :<C-u>DeniteProject file_mru<CR> <silent> <C-u><C-y> :<C-u>Denite neoyank<CR>
+    nmap <silent> [deniteProject]f :<C-u>DeniteProject file/rec<CR>
+    nmap <silent> [deniteProject]d :<C-u>DeniteProject directory_rec<CR>
+'''
+hook_source = '''
+    if executable('rg')
+        call denite#custom#var('file/rec', 'command', ['rg', '--files', '--glob', '!.git'])
+        call denite#custom#var('file_rec', 'command', ['rg', '--files', '--glob', '!.git'])
+        call denite#custom#var('grep', 'command', ['rg', '--threads', '1'])
+        call denite#custom#var('grep', 'recursive_opts', [])
+        call denite#custom#var('grep', 'final_opts', [])
+        call denite#custom#var('grep', 'separator', ['--'])
+        call denite#custom#var('grep', 'default_opts', ['--vimgrep', '--no-heading'])
+    endif
+
+    call denite#custom#map('insert', "<C-n>", '<denite:move_to_next_line>')
+    call denite#custom#map('insert', "<C-p>", '<denite:move_to_previous_line>')
+    call denite#custom#map('insert', "<C-t>", '<denite:do_action:tabopen>')
+    call denite#custom#map('insert', "<C-v>", '<denite:do_action:vsplit>')
+    call denite#custom#map('insert', "<C-h>", '<denite:do_action:split>')
+
+    call denite#custom#filter('matcher_ignore_globs', 'ignore_globs', [
+                \ '.git/', 'build/', '__pycache__/',
+                \ 'images/', '*.o', '*.make', '*.min.*',
+                \ 'img/', 'fonts/', '*~', '*.exe', '*.bak',
+                \ '.DS_Store', '*.pyc', '*.class', 'tags'
+                \ ])
+    '''
+
+[[plugins]]
+repo = 'vim-airline/vim-airline'
+hook_add = '''
+    " タブラインの表示
+    let g:airline#extensions#tabline#enabled = 1
+    " （タブが一個の場合）バッファのリストをタブラインに表示する機能をオフ
+    let g:airline#extensions#tabline#show_buffers = 0
+    " 0でそのタブで開いてるウィンドウ数、1で左のタブから連番
+    let g:airline#extensions#tabline#tab_nr_type = 1
+    " パワーラインフォントの使用
+    let g:airline_powerline_fonts = 1
+    " aleの表示
+    let g:airline#extensions#ale#enabled = 1
+    " Do not collapse the status line while having multiple windows
+    let g:airline_inactive_collapse = 0
+    " tagbarの表示
+    let g:airline#extensions#tagbar#enabled = 1
+    " virtualenvを有効
+    let g:airline#extensions#virtualenv#enabled = 1
+'''
+
+
+
+# aruduino
+[[plugins]]
+repo = 'sudar/vim-arduino-syntax'
+on_ft = ['arduino']
+
+
+
