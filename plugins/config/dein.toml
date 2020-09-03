@@ -1,0 +1,52 @@
+# coc.nvim
+[[plugins]]
+repo = "neoclide/coc.nvim"
+merged = 0
+rev = "release"
+hook_add = """
+source ~/.config/nvim/plugins/coc.rc.vim
+"""
+
+# defx.nvim
+[[plugins]]
+repo = "Shougo/defx.nvim"
+depends = ["defx-git"]
+hook_add = """
+source ~/.config/nvim/plugins/defx.rc.vim
+"""
+
+# defx-git
+[[plugins]]
+repo ="kristijanhusak/defx-git"
+hook_add = """
+source ~/.config/nvim/plugins/defx-git.rc.vim
+"""
+
+#denite.nvim
+[[plugins]]
+repo = "Shougo/denite.nvim"
+hook_add = """
+source ~/.config/nvim/plugins/denite.rc.vim
+"""
+
+#deol.vim
+[[plugins]]
+repo = "shougo/deol.nvim"
+hook_add = """
+source ~/.config/nvim/plugins/deol.rc.vim
+"""
+
+# vim-airline
+[[plugins]]
+repo = 'vim-airline/vim-airline'
+hook_add = """
+source ~/.config/nvim/plugins/airline.rc.vim
+"""
+
+# aruduino
+[[plugins]]
+repo = 'sudar/vim-arduino-syntax'
+on_ft = ['arduino']
+
+
+
