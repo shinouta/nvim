@@ -1,4 +1,4 @@
-# coc.nvim
+#coc.nvim
 [[plugins]]
 repo = "neoclide/coc.nvim"
 merged = 0
@@ -43,10 +43,11 @@ hook_add = """
 source ~/.config/nvim/plugins/airline.rc.vim
 """
 
-# aruduino
+# colorscheme
+
+# vim_quickrun
 [[plugins]]
-repo = 'sudar/vim-arduino-syntax'
-on_ft = ['arduino']
-
-
-
+repo = "thinca/vim-quickrun"
+hook_add = """
+source ~/.config/nvim/plugins/quickrun.rc.vim
+"""

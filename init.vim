@@ -11,6 +11,7 @@ runtime! colorscheme.vim
 syntax enable
 set number
 set title
+set cursorcolumn
 set cursorline
 set autoindent
 set expandtab
@@ -21,6 +22,6 @@ set softtabstop=2
 set clipboard=unnamedplus
 set nobackup
 set nowritebackup
-inoremap <silent> jj <ESC>
-let mapleader = "<Space>"
 set clipboard+=unnamed
+
+set runtimepath+=~/src/vim-arduino-syntax
