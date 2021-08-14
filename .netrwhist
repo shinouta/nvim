@@ -1,6 +1,12 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =4
-let g:netrw_dirhist_4='/Users/shinouta/.platformio/test'
-let g:netrw_dirhist_3='/Users/shinouta/practice/the_vim_way'
-let g:netrw_dirhist_2='/Users/shinouta/.config/nvim/plugins/config'
-let g:netrw_dirhist_1='/Users/shinouta/.config/nvim'
+let g:netrw_dirhistcnt =6
+let g:netrw_dirhist_6='/Users/shinouta/django/mysite'
+let g:netrw_dirhist_5='/Users/shinouta/Desktop/study/3rd_semester/Programming_Techniques/mahjong/test'
+let g:netrw_dirhist_4='/Users/shinouta/Desktop/study/3rd_semester/Programming_Techniques/hb'
+let g:netrw_dirhist_3='/Users/shinouta/Desktop/study/3rd_semester/Programming_Techniques/round_and_cross'
+let g:netrw_dirhist_2='/Users/shinouta/Desktop/study/3rd_semester/Programming_Techniques'
+let g:netrw_dirhist_1='/Users/shinouta/Desktop/study/3rd_semester/Programming_Techniques/round_and_cross'
+let g:netrw_dirhist_0='/Users/shinouta/practice/c'
+let g:netrw_dirhist_9='/Users/shinouta/.config/nvim'
+let g:netrw_dirhist_8='/Users/shinouta/practice/Arduino/test/src'
+let g:netrw_dirhist_7='/Users/shinouta/Arduino/tourobo2019/ashiseigyo_with_raspi_04'
